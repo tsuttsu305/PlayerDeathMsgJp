@@ -1,149 +1,122 @@
 package jp.tsuttsu305;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class onPlayerDeathEvent implements Listener {
 
 
-@EventHandler
+	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event){
+		// プレイヤーとプレイヤーが最後に受けたダメージイベントを取得
+		Player deader = event.getEntity();
+		EntityDamageEvent cause = event.getEntity().getLastDamageCause();
 
-		if (event instanceof PlayerDeathEvent){
-			String player = event.getEntity().getName();
-			String deathMessage = event.getDeathMessage();
-			String msg = "";
+		// 死亡メッセージ
+		String deathMessage = event.getDeathMessage();
 
-			//1
-			if (deathMessage.contains("drowned")) {
-				msg = Main.con[0].replaceAll("(\u0025[p])", player);
+		String name = deader.getName();
+		String msg = "";
 
+		// ダメージイベントを受けずに死んだ 死因不明
+		if (cause == null){
+			deathMessage = name + " は死にました"; // Unknown
+		}
+		// ダメージイベントあり 原因によってメッセージ変更
+		else{
+			// ダメージイベントがEntityDamageByEntityEvent(エンティティが原因のダメージイベント)かどうかチェック
+			if (cause instanceof EntityDamageByEntityEvent) {
+				Entity killer = ((EntityDamageByEntityEvent) cause).getDamager(); // EntityDamageByEventのgetDamagerメソッドから原因となったエンティティを取得
 
-			}else if (deathMessage.contains("was slain by Zombie")){//2
-				msg = Main.con[1].replaceAll("(\u0025[p])", player);
-
-
-			}else if (deathMessage.contains("was slain by Spider")){
-				msg = Main.con[2].replaceAll("(\u0025[p])", player);
-
-			}else if (deathMessage.contains("was slain by PigZombie"))
-			{
-				msg = re(Main.con[3], player);
-			}else if (deathMessage.contains("was slain by Silverfish"))
-			{
-				msg = re(Main.con[4], player);
-
-			}else if (deathMessage.contains("was slain by Slime"))
-			{
-				msg = re(Main.con[5], player);
-
-			}else if (deathMessage.contains("was slain by MagmaCube"))
-			{
-				msg = re(Main.con[6], player);
-
-			}else if (deathMessage.contains("was slain by Enderman"))
-			{
-				msg = re(Main.con[7], player);
-
-			}else if (deathMessage.contains("was slain by Enderdragon"))
-			{
-				msg = re(Main.con[8], player);
-
-			}else if (deathMessage.contains("was slain by Cave Spider"))
-			{
-				msg = re(Main.con[9], player);
-
-			}else if (deathMessage.contains("was slain by Irongolem"))
-			{
-				msg = re(Main.con[10],player);
-
-			}else if (deathMessage.contains("was slain by Wolf"))
-			{
-				msg = re(Main.con[11],player);
-
-			}else if (deathMessage.contains("was slain by Giant"))
-			{
-				msg = re(Main.con[12], player);
-			}else if (deathMessage.contains("was slain by Wither"))
-			{
-				msg = re(Main.con[13], player);
-			}else if (deathMessage.contains("was slain by"))
-			{
-				msg = re(Main.con[14], player);
-				msg = msg.replaceAll("(\u0025[k])", event.getEntity().getKiller().getName());
-				msg = msg.replaceAll("(\u0025[i])", event.getEntity().getKiller().getItemInHand().getType().toString());
-
-
-			}else if (deathMessage.contains("was shot by Skeleton"))
-			{
-				msg = re(Main.con[15], player);
-			}else if (deathMessage.contains("was shot by"))
-			{
-				msg = re(Main.con[16], player);
-				msg = msg.replaceAll("(\u0025[k])", event.getEntity().getKiller().getName());
-
-			}else if (deathMessage.contains("was killed by"))
-			{
-				msg = re(Main.con[17], player);
-				msg = msg.replaceAll("(\u0025[k])", event.getEntity().getKiller().getName());
-
-			}else if (deathMessage.contains("hit the ground too hard"))
-			{
-				msg = re(Main.con[18], player);
-			}else if (deathMessage.contains("fell out of the world"))
-			{
-				msg = re(Main.con[19], player);
-			}else if (deathMessage.contains("tried to swim in lava"))
-			{
-				msg = re(Main.con[20], player);
-			}else if (deathMessage.contains("went up in flames"))
-			{
-				msg = re(Main.con[21], player);
-
-			}else if (deathMessage.contains("burned to death"))
-			{
-				msg = re(Main.con[22], player);
-			}else if (deathMessage.contains("blew up"))
-			{
-				msg = re(Main.con[23], player);
-			}else if (deathMessage.contains("was fireballed by"))
-			{
-				msg = re(Main.con[24], player);
-				msg = msg.replaceAll("(\u0025[k])", event.getEntity().getKiller().getName());
-
-			}else if (deathMessage.contains("was killed by magic"))
-			{
-				msg = re(Main.con[25], player);
-			}else if (deathMessage.contains("suffocated in a wall"))
-			{
-				msg = re(Main.con[26], player);
-			}else if (deathMessage.contains("was pricked to death"))
-			{
-				msg = re(Main.con[27], player);
-			}else if (deathMessage.contains("starved to death"))
-			{
-				msg = re(Main.con[28], player);
-			}else if (deathMessage.contains("was shot by arrow"))
-			{
-				msg = re(Main.con[29], player);
-			}else if (deathMessage.contains("died"))
-			{
-				msg = re(Main.con[30], player);
+				// エンティティの型チェック 特殊な表示の仕方が必要
+				if (killer instanceof Player){
+					// TODO: この辺に倒したプレイヤー名取得
+					deathMessage = name + " はプレイヤーに倒されました";
+				}
+				// 飼われている狼
+				else if (killer instanceof Wolf && ((Wolf) killer).isTamed()){
+					// TODO: 飼い主取得
+					deathMessage = name + " は飼われている狼に食べられました";
+				}
+				// プレイヤーが投げた弓や雪玉など
+				else if (killer instanceof Projectile && ((Projectile) killer).getShooter() instanceof Player) {
+					// TODO: 投げたプレイヤー取得
+					deathMessage = name + " はプレイヤーが投げたアイテムで倒されました";
+				}
+				// そのほかのMOBは直接設定ファイルから取得
+				else{
+					// TODO: Mainクラスの getMessage メソッドを呼ぶ
+					// deathMessage = ～.getMessage(entity.getType().getName());
+					deathMessage = "";
+				}
 			}
+			// エンティティ以外に倒されたメッセージは別に設定
+			else{
+				switch (cause.getCause()){
+					case CONTACT:
+						deathMessage = name + " はサボテンに触って死にました";
+						break;
 
+					case DROWNING:
+						deathMessage = name + " は溺れて死にました";
+						break;
 
+					case FALL:
+						deathMessage = name + " は落下死しました";
+						break;
 
+					case FIRE:
+					case FIRE_TICK:
+						deathMessage = name + " は火の中で死にました";
+						break;
 
+					case LAVA:
+						deathMessage = name + " は溶岩に触って死にました";
+						break;
 
+					case LIGHTNING:
+						deathMessage = name + " は雷に打たれて死にました";
+						break;
 
-			event.setDeathMessage(msg);
+					case POISON:
+						deathMessage = name + " は毒で死にました";
+						break;
 
+					case STARVATION:
+						deathMessage = name + " は餓死しました";
+						break;
 
+					case SUFFOCATION:
+						deathMessage = name + " は窒息死しました";
+						break;
 
+					case SUICIDE:
+						deathMessage = name + " は自殺しました";
+						break;
+
+					case VOID:
+						deathMessage = name + " は奈落に落ちました";
+						break;
+
+					// それ以外は不明
+					default:
+						deathMessage = name + " は死にました"; // Unknown
+						break;
+				}
+			}
 		}
 
+		// 設定ファイルから読み込むなら最後に一括変換したほうがスマートかも
+		deathMessage = deathMessage.replace("%p", name);
 
+		event.setDeathMessage(msg);
 		return;
 	}
 
