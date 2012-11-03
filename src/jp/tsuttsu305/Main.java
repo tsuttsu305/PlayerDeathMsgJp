@@ -9,12 +9,12 @@ public class Main extends JavaPlugin {
 	public static Main plugin;
 	Logger logger = Logger.getLogger("Minecraft");
 	
-	public String[] con = new String[30];
+	public static String[] con = new String[30];
 
 	public void onEnable(){
 		PluginDescriptionFile pdfFile = getDescription();
 		this.logger.info(pdfFile.getName() + "version" + pdfFile.getVersion() + " is Enabled");
-		getServer().getPluginManager().registerEvents(new PlayerDeathEvent(), this);
+		getServer().getPluginManager().registerEvents(new onPlayerDeathEvent(), this);
 		
 		getConfig().options().copyDefaults(true);
 		saveConfig();
@@ -100,6 +100,7 @@ public class Main extends JavaPlugin {
 
 		return;
 	}
+
 	
 	public String getMessage(String cause){
 	    return this.getConfig().getString(cause);
