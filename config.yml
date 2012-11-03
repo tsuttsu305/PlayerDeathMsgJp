@@ -1,0 +1,93 @@
+#死んだPlayerの名前が入るところは $player と表記。
+#殺害者(Player, Mob等)は $killer と表記
+#殺害アイテムは$item
+
+#溺死
+drowned: "$player は溺死した!"
+
+#ゾンビに殺害
+zombie: "$player はゾンビに殺された!"
+
+#蜘蛛
+spider: "$playerは蜘蛛に喰われた!"
+
+#ゾンビピックマン
+pigzombie: "$player はゾンビピックマンに殺された!"
+
+#シルバーフィッシュ
+silverfish: "$player はシルバーフィッシュに喰われた!"
+
+#スライム
+slime: "$playerはスライムに潰された!"
+
+#マグマキューブ
+magmacube: "$player はマグマキューブに殺された!"
+
+#エンダーマン
+enderman: "$player は…ｴﾝﾀﾞｧｧｧｧｧｧ"
+
+#エンダードラゴン
+enderdragon: "$player はエンダードラゴンにやられてしまった…"
+
+#毒蜘蛛
+cavespider: "$player は毒グモの毒に侵されて息絶えた!"
+
+#アイアンゴーレム
+irongolem: "$player はアイアンゴーレムに殴り殺された。"
+
+#狼
+wolf: "$player は狼に喰われた!"
+
+#Giant…未使用
+giant: "$player は潰された!"
+
+#PvP
+pvp: "$player は$killer に、&itemで殺された!"
+
+#スケルトン
+skeleton: "$player はスケルトンに射殺された!"
+
+#何者かに射殺
+shot: "$player は射殺された…"
+
+#何かに殺された
+killed: "$player は $killerに殺された"
+
+#落下死
+ground: "$player は落下死した。。。"
+
+#世界からの転落
+fell: "$player は世界から落ちた"
+
+#マグマダイバー
+lava: "$player はマグマダイブした!!!!!"
+
+#爆発炎上
+flames: "$player は爆死した"
+
+#焼死
+burn: "$player は焼け死んだ。"
+
+#爆死
+blew: "$player は爆死した。"
+
+#ファイヤーボール
+fireball: "$player は$killer のファイヤーボールで死んだ。"
+
+#ポーション
+magic: "$player は不思議な力で死んでしまった…"
+
+#壁に埋まる
+wall: "$player は窒息死した"
+
+#サボテン
+prick: "$player はサボテンで刺された!"
+
+#餓死
+starved: "$player は餓死してしまった…"
+
+#ディスペンサーからの矢
+arrow: "$player は矢で死んだ"
+
+#自殺
+kill: "$player さん。自殺はいけません。"
