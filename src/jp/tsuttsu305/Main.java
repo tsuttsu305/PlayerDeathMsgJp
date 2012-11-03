@@ -9,7 +9,7 @@ public class Main extends JavaPlugin {
 	public static Main plugin;
 	Logger logger = Logger.getLogger("Minecraft");
 	
-	public static String[] con = new String[30];
+	public static String[] con = new String[31];
 
 	public void onEnable(){
 		PluginDescriptionFile pdfFile = getDescription();
@@ -18,6 +18,9 @@ public class Main extends JavaPlugin {
 		
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+		
+		ConfigLoad();
+		
 
 	}
 
@@ -76,23 +79,24 @@ public class Main extends JavaPlugin {
 		con[10] = getMessage("irongolem");
 		con[11] = getMessage("wolf");
 		con[12] = getMessage("giant");
-		con[13] = getMessage("pvp");
-		con[14] = getMessage("skeleton");
-		con[15] = getMessage("shot");
-		con[16] = getMessage("killed");
-		con[17] = getMessage("ground");
-		con[18] = getMessage("fell");
-		con[19] = getMessage("lava");
-		con[20] = getMessage("flames");
-		con[21] = getMessage("burn");
-		con[22] = getMessage("blew");
-		con[23] = getMessage("fireball");
-		con[24] = getMessage("magic");
-		con[25] = getMessage("wall");
-		con[26] = getMessage("prick");
-		con[27] = getMessage("starved");
-		con[28] = getMessage("arrow");
-		con[29] = getMessage("kill");
+		con[13] = getMessage("wither");
+		con[14] = getMessage("pvp");
+		con[15] = getMessage("skeleton");
+		con[16] = getMessage("shot");
+		con[17] = getMessage("killed");
+		con[18] = getMessage("ground");
+		con[19] = getMessage("fell");
+		con[20] = getMessage("lava");
+		con[21] = getMessage("flames");
+		con[22] = getMessage("burn");
+		con[23] = getMessage("blew");
+		con[24] = getMessage("fireball");
+		con[25] = getMessage("magic");
+		con[26] = getMessage("wall");
+		con[27] = getMessage("prick");
+		con[28] = getMessage("starved");
+		con[29] = getMessage("arrow");
+		con[30] = getMessage("kill");
 		
 		
 		

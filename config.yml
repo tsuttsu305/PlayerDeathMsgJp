@@ -1,93 +1,96 @@
-#死んだPlayerの名前が入るところは $player と表記。
-#殺害者(Player, Mob等)は $killer と表記
-#殺害アイテムは$item
+#����Player�̖��O������Ƃ���� %p �ƕ\�L�B
+#�E�Q��(Player, Mob��)�� %k �ƕ\�L
+#�E�Q�A�C�e����%i
 
-#溺死
-drowned: "$player は溺死した!"
+#�M��
+drowned: "%p �͓M������!"
 
-#ゾンビに殺害
-zombie: "$player はゾンビに殺された!"
+#�]���r�ɎE�Q
+zombie: "%p �̓]���r�ɎE���ꂽ!"
 
-#蜘蛛
-spider: "$playerは蜘蛛に喰われた!"
+#�w�
+spider: "%p�͒w偂ɋ��ꂽ!"
 
-#ゾンビピックマン
-pigzombie: "$player はゾンビピックマンに殺された!"
+#�]���r�s�b�N�}��
+pigzombie: "%p �̓]���r�s�b�N�}���ɎE���ꂽ!"
 
-#シルバーフィッシュ
-silverfish: "$player はシルバーフィッシュに喰われた!"
+#�V���o�[�t�B�b�V��
+silverfish: "%p �̓V���o�[�t�B�b�V���ɋ��ꂽ!"
 
-#スライム
-slime: "$playerはスライムに潰された!"
+#�X���C��
+slime: "%p�̓X���C���ɒׂ��ꂽ!"
 
-#マグマキューブ
-magmacube: "$player はマグマキューブに殺された!"
+#�}�O�}�L���[�u
+magmacube: "%p �̓}�O�}�L���[�u�ɎE���ꂽ!"
 
-#エンダーマン
-enderman: "$player は…ｴﾝﾀﾞｧｧｧｧｧｧ"
+#�G���_�[�}��
+enderman: "%p �́c���ާ�����"
 
-#エンダードラゴン
-enderdragon: "$player はエンダードラゴンにやられてしまった…"
+#�G���_�[�h���S��
+enderdragon: "%p �̓G���_�[�h���S���ɂ���Ă��܂����c"
 
-#毒蜘蛛
-cavespider: "$player は毒グモの毒に侵されて息絶えた!"
+#�Œw�
+cavespider: "%p �͓ŃO���̓łɐN����đ��₦��!"
 
-#アイアンゴーレム
-irongolem: "$player はアイアンゴーレムに殴り殺された。"
+#�A�C�A���S�[����
+irongolem: "%p �̓A�C�A���S�[�����ɉ���E���ꂽ�B"
 
-#狼
-wolf: "$player は狼に喰われた!"
+#�T
+wolf: "%p �͘T�ɋ��ꂽ!"
 
-#Giant…未使用
-giant: "$player は潰された!"
+#Giant�c���g�p
+giant: "%p �ׂ͒��ꂽ!"
 
 #PvP
-pvp: "$player は$killer に、&itemで殺された!"
+pvp: "%p ��%k �ɁA&item�ŎE���ꂽ!"
 
-#スケルトン
-skeleton: "$player はスケルトンに射殺された!"
+#�X�P���g��
+skeleton: "%p �̓X�P���g���ɎˎE���ꂽ!"
 
-#何者かに射殺
-shot: "$player は射殺された…"
+#���҂��ɎˎE
+shot: "%p �͎ˎE���ꂽ�c"
 
-#何かに殺された
-killed: "$player は $killerに殺された"
+#�����ɎE���ꂽ
+killed: "%p �� %k�ɎE���ꂽ"
 
-#落下死
-ground: "$player は落下死した。。。"
+#������
+ground: "%p �͗����������B�B�B"
 
-#世界からの転落
-fell: "$player は世界から落ちた"
+#���E����̓]��
+fell: "%p �͐��E���痎����"
 
-#マグマダイバー
-lava: "$player はマグマダイブした!!!!!"
+#�}�O�}�_�C�o�[
+lava: "%p �̓}�O�}�_�C�u����!!!!!"
 
-#爆発炎上
-flames: "$player は爆死した"
+#��������
+flames: "%p �͔�������"
 
-#焼死
-burn: "$player は焼け死んだ。"
+#�Ď�
+burn: "%p �͏Ă����񂾁B"
 
-#爆死
-blew: "$player は爆死した。"
+#����
+blew: "%p �͔��������B"
 
-#ファイヤーボール
-fireball: "$player は$killer のファイヤーボールで死んだ。"
+#�t�@�C���[�{�[��
+fireball: "%p ��%k �̃t�@�C���[�{�[���Ŏ��񂾁B"
 
-#ポーション
-magic: "$player は不思議な力で死んでしまった…"
+#�|�[�V����
+magic: "%p �͕s�v�c�ȗ͂Ŏ���ł��܂����c"
 
-#壁に埋まる
-wall: "$player は窒息死した"
+#�ǂɖ��܂�
+wall: "%p �͒���������"
 
-#サボテン
-prick: "$player はサボテンで刺された!"
+#�T�{�e��
+prick: "%p �̓T�{�e���Ŏh���ꂽ!"
 
-#餓死
-starved: "$player は餓死してしまった…"
+#�쎀
+starved: "%p �͉쎀���Ă��܂����c"
 
-#ディスペンサーからの矢
-arrow: "$player は矢で死んだ"
+#�f�B�X�y���T�[����̖�
+arrow: "%p �͖�Ŏ���"
 
-#自殺
-kill: "$player さん。自殺はいけません。"
+#���E
+kill: "%p ����B���E�͂����܂���B"
+
+#�E�B�U�[
+wither: "%p �̓E�B�U�[�ɎE���ꂽ"
