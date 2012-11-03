@@ -8,10 +8,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 	public static Main plugin;
 	Logger logger = Logger.getLogger("Minecraft");
+	
+	public String[] con = new String[30];
 
 	public void onEnable(){
 		PluginDescriptionFile pdfFile = getDescription();
 		this.logger.info(pdfFile.getName() + "version" + pdfFile.getVersion() + " is Enabled");
+		getServer().getPluginManager().registerEvents(new PlayerDeathEvent(), this);
+		
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 
@@ -57,44 +61,48 @@ public class Main extends JavaPlugin {
 		 * 29 kill
 		 */
 		
-		String[] con = new String[30];
 		
-		con[0] = this.getConfig().getString("drowned");
-		con[1] = this.getConfig().getString("zombie");
-		con[2] = this.getConfig().getString("spider");
-		con[3] = this.getConfig().getString("pigzombie");
-		con[4] = this.getConfig().getString("silverfish");
-		con[5] = this.getConfig().getString("slime");
-		con[6] = this.getConfig().getString("magmacube");
-		con[7] = this.getConfig().getString("enderman");
-		con[8] = this.getConfig().getString("enderdragon");
-		con[9] = this.getConfig().getString("cavespider");
-		con[10] = this.getConfig().getString("irongolem");
-		con[11] = this.getConfig().getString("wolf");
-		con[12] = this.getConfig().getString("giant");
-		con[13] = this.getConfig().getString("pvp");
-		con[14] = this.getConfig().getString("skeleton");
-		con[15] = this.getConfig().getString("shot");
-		con[16] = this.getConfig().getString("killed");
-		con[17] = this.getConfig().getString("ground");
-		con[18] = this.getConfig().getString("fell");
-		con[19] = this.getConfig().getString("lava");
-		con[20] = this.getConfig().getString("flames");
-		con[21] = this.getConfig().getString("burn");
-		con[22] = this.getConfig().getString("blew");
-		con[23] = this.getConfig().getString("fireball");
-		con[24] = this.getConfig().getString("magic");
-		con[25] = this.getConfig().getString("wall");
-		con[26] = this.getConfig().getString("prick");
-		con[27] = this.getConfig().getString("starved");
-		con[28] = this.getConfig().getString("arrow");
-		con[29] = this.getConfig().getString("kill");
+		
+		con[0] = getMessage("drowned");
+		con[1] = getMessage("zombie");
+		con[2] = getMessage("spider");
+		con[3] = getMessage("pigzombie");
+		con[4] = getMessage("silverfish");
+		con[5] = getMessage("slime");
+		con[6] = getMessage("magmacube");
+		con[7] = getMessage("enderman");
+		con[8] = getMessage("enderdragon");
+		con[9] = getMessage("cavespider");
+		con[10] = getMessage("irongolem");
+		con[11] = getMessage("wolf");
+		con[12] = getMessage("giant");
+		con[13] = getMessage("pvp");
+		con[14] = getMessage("skeleton");
+		con[15] = getMessage("shot");
+		con[16] = getMessage("killed");
+		con[17] = getMessage("ground");
+		con[18] = getMessage("fell");
+		con[19] = getMessage("lava");
+		con[20] = getMessage("flames");
+		con[21] = getMessage("burn");
+		con[22] = getMessage("blew");
+		con[23] = getMessage("fireball");
+		con[24] = getMessage("magic");
+		con[25] = getMessage("wall");
+		con[26] = getMessage("prick");
+		con[27] = getMessage("starved");
+		con[28] = getMessage("arrow");
+		con[29] = getMessage("kill");
 		
 		
 		
 
 
 		return;
+	}
+	
+	public String getMessage(String cause){
+	    return this.getConfig().getString(cause);
 	}
 
 
