@@ -9,8 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
-public class onPlayerDeathEvent implements Listener {
+public class onPlayerDeathEvent extends Main implements Listener {
 
 
 	@EventHandler
@@ -23,11 +24,12 @@ public class onPlayerDeathEvent implements Listener {
 		String deathMessage = event.getDeathMessage();
 
 		String name = deader.getName();
-		String msg = "";
+
+
 
 		// ダメージイベントを受けずに死んだ 死因不明
 		if (cause == null){
-			deathMessage = name + " は死にました"; // Unknown
+			deathMessage = getMessage("unknown"); // Unknown
 		}
 		// ダメージイベントあり 原因によってメッセージ変更
 		else{
@@ -37,95 +39,105 @@ public class onPlayerDeathEvent implements Listener {
 
 				// エンティティの型チェック 特殊な表示の仕方が必要
 				if (killer instanceof Player){
-					// TODO: この辺に倒したプレイヤー名取得
-					deathMessage = name + " はプレイヤーに倒されました";
+					// この辺に倒したプレイヤー名取得
+					//Player killerP = deader.getKiller();
+					//killerが持ってたアイテム
+					//ItemStack hand = killerP.getItemInHand();
+					//deathMessage = getMessage("pvp");
+					deathMessage = Main.con[14];
+					//deathMessage = deathMessage.replace("%k", killerP.getName());
+					//deathMessage = deathMessage.replace("%i", hand.getType().toString());
 				}
 				// 飼われている狼
 				else if (killer instanceof Wolf && ((Wolf) killer).isTamed()){
-					// TODO: 飼い主取得
-					deathMessage = name + " は飼われている狼に食べられました";
+					//  飼い主取得
+					String tamer = ((Wolf)killer).getOwner().getName();
+
+					deathMessage = getMessage("tamewolf");
+					deathMessage = deathMessage.replace("%o", tamer);
 				}
 				// プレイヤーが投げた弓や雪玉など
 				else if (killer instanceof Projectile && ((Projectile) killer).getShooter() instanceof Player) {
-					// TODO: 投げたプレイヤー取得
-					deathMessage = name + " はプレイヤーが投げたアイテムで倒されました";
+					// 投げたプレイヤー取得
+					Player sh = ((Player)killer).getPlayer();
+					ItemStack pass = ((Projectile)killer).getShooter().getKiller().getItemInHand();
+
+					deathMessage = getMessage("throw");
+					deathMessage = deathMessage.replace("%i", pass.getType().toString());
+					deathMessage = deathMessage.replace("%k", sh.getName());
+
+
 				}
 				// そのほかのMOBは直接設定ファイルから取得
 				else{
-					// TODO: Mainクラスの getMessage メソッドを呼ぶ
-					// deathMessage = ～.getMessage(entity.getType().getName());
-					deathMessage = "";
+					//Mainクラスの Main.plugin.getMessage メソッドを呼ぶ
+					deathMessage = getMessage(killer.getType().getName());
 				}
 			}
 			// エンティティ以外に倒されたメッセージは別に設定
 			else{
 				switch (cause.getCause()){
 					case CONTACT:
-						deathMessage = name + " はサボテンに触って死にました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case DROWNING:
-						deathMessage = name + " は溺れて死にました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case FALL:
-						deathMessage = name + " は落下死しました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case FIRE:
 					case FIRE_TICK:
-						deathMessage = name + " は火の中で死にました";
+						deathMessage = getMessage("fire");
 						break;
 
 					case LAVA:
-						deathMessage = name + " は溶岩に触って死にました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case LIGHTNING:
-						deathMessage = name + " は雷に打たれて死にました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case POISON:
-						deathMessage = name + " は毒で死にました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case STARVATION:
-						deathMessage = name + " は餓死しました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case SUFFOCATION:
-						deathMessage = name + " は窒息死しました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case SUICIDE:
-						deathMessage = name + " は自殺しました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					case VOID:
-						deathMessage = name + " は奈落に落ちました";
+						deathMessage = getMessage(cause.getCause().toString());
 						break;
 
 					// それ以外は不明
 					default:
-						deathMessage = name + " は死にました"; // Unknown
+						deathMessage = getMessage("unknown"); // Unknown
 						break;
 				}
 			}
 		}
 
 		// 設定ファイルから読み込むなら最後に一括変換したほうがスマートかも
-		deathMessage = deathMessage.replace("%p", name);
+		deathMessage = deathMessage.replace("(\u0025[p])", name);
 
-		event.setDeathMessage(msg);
+		event.setDeathMessage(deathMessage);
 		return;
 	}
 
-public String re(String s , String player){
 
-
-	return s = s.replaceAll("(\u0025[p])", player);
-
-}
 
 
 }

@@ -1,96 +1,38 @@
-#死んだPlayerの名前が入るところは %p と表記。
-#殺害者(Player, Mob等)は %k と表記
-#殺害アイテムは%i
-
-#溺死
-drowned: "%p は溺死した!"
-
-#ゾンビに殺害
-zombie: "%p はゾンビに殺された!"
-
-#蜘蛛
-spider: "%pは蜘蛛に喰われた!"
-
-#ゾンビピックマン
-pigzombie: "%p はゾンビピックマンに殺された!"
-
-#シルバーフィッシュ
-silverfish: "%p はシルバーフィッシュに喰われた!"
-
-#スライム
-slime: "%pはスライムに潰された!"
-
-#マグマキューブ
-magmacube: "%p はマグマキューブに殺された!"
-
-#エンダーマン
-enderman: "%p は…ｴﾝﾀﾞｧｧｧｧｧｧ"
-
-#エンダードラゴン
-enderdragon: "%p はエンダードラゴンにやられてしまった…"
-
-#毒蜘蛛
-cavespider: "%p は毒グモの毒に侵されて息絶えた!"
-
-#アイアンゴーレム
-irongolem: "%p はアイアンゴーレムに殴り殺された。"
-
-#狼
-wolf: "%p は狼に喰われた!"
-
-#Giant…未使用
-giant: "%p は潰された!"
-
-#PvP
-pvp: "%p は%k に、&itemで殺された!"
-
-#スケルトン
-skeleton: "%p はスケルトンに射殺された!"
-
-#何者かに射殺
-shot: "%p は射殺された…"
-
-#何かに殺された
-killed: "%p は %kに殺された"
-
-#落下死
-ground: "%p は落下死した。。。"
-
-#世界からの転落
-fell: "%p は世界から落ちた"
-
-#マグマダイバー
-lava: "%p はマグマダイブした!!!!!"
-
-#爆発炎上
-flames: "%p は爆死した"
-
-#焼死
-burn: "%p は焼け死んだ。"
-
-#爆死
-blew: "%p は爆死した。"
-
-#ファイヤーボール
-fireball: "%p は%k のファイヤーボールで死んだ。"
-
-#ポーション
-magic: "%p は不思議な力で死んでしまった…"
-
-#壁に埋まる
-wall: "%p は窒息死した"
-
-#サボテン
-prick: "%p はサボテンで刺された!"
-
-#餓死
-starved: "%p は餓死してしまった…"
-
-#ディスペンサーからの矢
-arrow: "%p は矢で死んだ"
-
-#自殺
-kill: "%p さん。自殺はいけません。"
-
-#ウィザー
+#case: String
+#%p Player, %k Killer, %o Owner, %i Item
+unknown: "%p は死にました"
+pvp: "%p は%k に%i で殺された"
+tamewolf: "%p は%o の狼に喰われた"
+throw: "%p は%k によって投げられた%i で死亡した"
+arrow: "%p は矢で射抜かれた"
+snowball: "%p は雪玉で死んだ"
+creeper: "%p はクリーパーに殺された"
+skeleton: "%p はスケルトンに射殺された"
+spider: "%p は蜘蛛に殺された"
+giant: "%p はぺしゃんこになった"
+zombie: "%p はゾンビに殺された"
+slime: "%p はスライムに殺された"
+ghast: "%p はガストに殺された"
+pig_zombie: "%p はゾンビピッグマンに殺された"
+enderman: "%p はエンダーマンに殺された"
+cave_spider: "%p は毒グモに殺された"
+silverfish: "%p はシルバーフィッシュに殺された"
+blaze: "%p はブレイズに火だるまにされた"
+magma_cube: "%p はマグマキューブに殺された"
+ender_dragon: "%p はエンダードラゴンに殺された"
 wither: "%p はウィザーに殺された"
+bat: "%p はコウモリに殺された"
+wolf: "%p は狼に噛まれた"
+showman: "%p は雪男に殺された"
+iron_golem: "%p は鉄の巨人に殴り殺された"
+contact: "%p はサボテンに抱きついて死んだ"
+drowning: "%p は溺れ死んだ"
+fall: "%p は落下死した"
+fire: "%p は焼け死んだ"
+lava: "%p はマグマ遊泳を楽しんだ"
+lightning: "%p は神の怒りにふれた"
+poison: "%p は毒で死んだ"
+starvation: "%p は餓死しました"
+suffocation: "%p は窒息死しました"
+suicide: "%p は自殺した模様"
+void: "%p は奈落に落ちた"

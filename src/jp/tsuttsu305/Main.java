@@ -19,7 +19,7 @@ public class Main extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		
-		ConfigLoad();
+		//ConfigLoad();
 		
 
 	}
@@ -106,7 +106,9 @@ public class Main extends JavaPlugin {
 	}
 
 	
+	//スペルミスでエラーを回避した。←バカ
 	public String getMessage(String cause){
+		//cause = cause.toLowerCase();
 	    return this.getConfig().getString(cause);
 	}
 
