@@ -131,7 +131,7 @@ public class onPlayerDeathEvent extends Main implements Listener {
 		}
 
 		// 設定ファイルから読み込むなら最後に一括変換したほうがスマートかも
-		deathMessage = deathMessage.replace("(\u0025[p])", name);
+		deathMessage = deathMessage.replace("%p", name);
 
 		event.setDeathMessage(deathMessage);
 		return;
