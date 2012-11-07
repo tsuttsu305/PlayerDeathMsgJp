@@ -5,22 +5,25 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin{
 	public static Main plugin;
 	Logger logger = Logger.getLogger("Minecraft");
-	
-	public static String[] con = new String[31];
+
+	//public static String[] con = new String[31];
 
 	public void onEnable(){
 		PluginDescriptionFile pdfFile = getDescription();
 		this.logger.info(pdfFile.getName() + "version" + pdfFile.getVersion() + " is Enabled");
 		getServer().getPluginManager().registerEvents(new onPlayerDeathEvent(), this);
-		
+
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+
+		
+		//getServer().broadcastMessage(getMessage("pvp"));
 		
 		//ConfigLoad();
-		
+
 
 	}
 
@@ -29,7 +32,7 @@ public class Main extends JavaPlugin {
 		this.logger.info(pdfFile.getName() + "version" + pdfFile.getVersion() + " is Disabled");
 
 	}
-
+/*
 	public void ConfigLoad() {
 		/*
 		 * 0 drowned
@@ -62,10 +65,10 @@ public class Main extends JavaPlugin {
 		 * 27 starved
 		 * 28 arrow
 		 * 29 kill
-		 */
-		
-		
-		
+		 *
+
+
+
 		con[0] = getMessage("drowned");
 		con[1] = getMessage("zombie");
 		con[2] = getMessage("spider");
@@ -97,20 +100,23 @@ public class Main extends JavaPlugin {
 		con[28] = getMessage("starved");
 		con[29] = getMessage("arrow");
 		con[30] = getMessage("kill");
-		
-		
-		
+
+
+
 
 
 		return;
 	}
+	*/
 
-	
+	//TODO:こっから↓を何とかしないとダメ。だがさっぱりである
 	//スペルミスでエラーを回避した。←バカ
-	public String getMessage(String cause){
+	public static String getMessage(String cause){
 		//cause = cause.toLowerCase();
-	    return this.getConfig().getString(cause);
+
+	    return Main.plugin.getConfig().getString(cause);
 	}
+
 
 
 }
