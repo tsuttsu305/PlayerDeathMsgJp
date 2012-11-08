@@ -18,10 +18,12 @@ public class Main extends JavaPlugin{
 
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+		
+		
 
-		
+
 		//getServer().broadcastMessage(getMessage("pvp"));
-		
+
 		//ConfigLoad();
 
 
@@ -108,14 +110,12 @@ public class Main extends JavaPlugin{
 		return;
 	}
 	*/
-
-	//TODO:こっから↓を何とかしないとダメ。だがさっぱりである
-	//スペルミスでエラーを回避した。←バカ
-	public static String getMessage(String cause){
+	public String getMessage(String cause){
 		//cause = cause.toLowerCase();
-
-	    return Main.plugin.getConfig().getString(cause);
+		cause =  plugin.getConfig().getString(cause);
+	    return cause;
 	}
+
 
 
 

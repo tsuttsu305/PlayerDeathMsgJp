@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public class onPlayerDeathEvent implements Listener {
 
 	//TODO:Main.getMessage()　これを何とかする必要あり
-
+Main Main = jp.tsuttsu305.Main.plugin;
 
 
 
@@ -22,13 +22,12 @@ public class onPlayerDeathEvent implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event){
 		// プレイヤーとプレイヤーが最後に受けたダメージイベントを取得
 		Player deader = event.getEntity();
-		EntityDamageEvent cause = event.getEntity().getLastDamageCause();
+		final EntityDamageEvent cause = event.getEntity().getLastDamageCause();
 
 		// 死亡メッセージ
 		String deathMessage = event.getDeathMessage();
 
 		String name = deader.getName();
-
 
 
 
@@ -143,6 +142,7 @@ public class onPlayerDeathEvent implements Listener {
 		event.setDeathMessage(deathMessage);
 		return;
 	}
+
 
 
 
