@@ -3,7 +3,7 @@
 unknown: "%p は死にました"
 pvp: "%p は%k に%i で殺された"
 tamewolf: "%p は%o の狼に喰われた"
-throw: "%p は%k によって投げられた%i で死亡した"
+throw: "%p は%k によって投げられた物で死亡した"
 arrow: "%p は矢で射抜かれた"
 snowball: "%p は雪玉で死んだ"
 creeper: "%p はクリーパーに殺された"

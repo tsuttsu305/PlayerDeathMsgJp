@@ -115,8 +115,8 @@ public class Main extends JavaPlugin{
 	}
 	*/
 	public String getMessage(String cause){
-		//cause = cause.toLowerCase();
-		cause =  plugin.getConfig().getString(cause);
+		cause = cause.toLowerCase();
+		cause =  this.getConfig().getString(cause);
 	    return cause;
 	}
 

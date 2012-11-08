@@ -76,11 +76,13 @@ public class onPlayerDeathEvent implements Listener {
 				// プレイヤーが投げた弓や雪玉など
 				else if (killer instanceof Projectile && ((Projectile) killer).getShooter() instanceof Player) {
 					// 投げたプレイヤー取得
-					Player sh = ((Player)killer).getPlayer();
-					ItemStack pass = ((Projectile)killer).getShooter().getKiller().getItemInHand();
+					Player sh = (Player) ((Projectile)killer).getShooter();
+					//仕様です。こんなものなかった
+					//ItemStack pass = deader.getKiller().getItemInHand();
 
 					deathMessage = main.getMessage("throw");
-					deathMessage = deathMessage.replace("%i", pass.getType().toString());
+					//仕様です。こんなものなかった
+					//deathMessage = deathMessage.replace("%i", pass.getType().toString());
 					deathMessage = deathMessage.replace("%k", sh.getName());
 
 
