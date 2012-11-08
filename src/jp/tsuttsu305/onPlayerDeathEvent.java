@@ -13,8 +13,21 @@ import org.bukkit.inventory.ItemStack;
 
 public class onPlayerDeathEvent implements Listener {
 
-	//TODO:Main.getMessage()　これを何とかする必要あり
-Main Main = jp.tsuttsu305.Main.plugin;
+	// * メインクラスのインスタンス
+	// このクラスのインスタンスが生成される際に、メインクラスのインスタンスを設定する
+	// メインクラスの動的フィールド・メソッドにアクセスする時は main.hogehoge のように使う
+	private Main main = null;
+
+	/**
+	 * onPlayerDeathEventクラスのコンストラクタ
+	 * @param main メインクラスのインスタンス
+	 */
+	public onPlayerDeathEvent(Main main){
+		this.main = main;
+	}
+
+	//TODO:main.getMessage()　これを何とかする必要あり
+	//Main Main = jp.tsuttsu305.Main.plugin;
 
 
 
@@ -33,7 +46,7 @@ Main Main = jp.tsuttsu305.Main.plugin;
 
 		// ダメージイベントを受けずに死んだ 死因不明
 		if (cause == null){
-			deathMessage = Main.getMessage("unknown"); // Unknown
+			deathMessage = main.getMessage("unknown"); // Unknown
 		}
 		// ダメージイベントあり 原因によってメッセージ変更
 		else{
@@ -47,7 +60,7 @@ Main Main = jp.tsuttsu305.Main.plugin;
 					Player killerP = deader.getKiller();
 					//killerが持ってたアイテム
 					ItemStack hand = killerP.getItemInHand();
-					deathMessage = Main.getMessage("pvp");
+					deathMessage = main.getMessage("pvp");
 
 					deathMessage = deathMessage.replace("%k", killerP.getName());
 					deathMessage = deathMessage.replace("%i", hand.getType().toString());
@@ -57,7 +70,7 @@ Main Main = jp.tsuttsu305.Main.plugin;
 					//  飼い主取得
 					String tamer = ((Wolf)killer).getOwner().getName();
 
-					deathMessage = Main.getMessage("tamewolf");
+					deathMessage = main.getMessage("tamewolf");
 					deathMessage = deathMessage.replace("%o", tamer);
 				}
 				// プレイヤーが投げた弓や雪玉など
@@ -66,7 +79,7 @@ Main Main = jp.tsuttsu305.Main.plugin;
 					Player sh = ((Player)killer).getPlayer();
 					ItemStack pass = ((Projectile)killer).getShooter().getKiller().getItemInHand();
 
-					deathMessage = Main.getMessage("throw");
+					deathMessage = main.getMessage("throw");
 					deathMessage = deathMessage.replace("%i", pass.getType().toString());
 					deathMessage = deathMessage.replace("%k", sh.getName());
 
@@ -74,62 +87,62 @@ Main Main = jp.tsuttsu305.Main.plugin;
 				}
 				// そのほかのMOBは直接設定ファイルから取得
 				else{
-					//Mainクラスの Main.plugin.Main.getMessage メソッドを呼ぶ
+					//Mainクラスの main.plugin.Main.getMessage メソッドを呼ぶ
 					deader.sendMessage(killer.getType().getName().toLowerCase());
-					deathMessage = Main.getMessage(killer.getType().getName().toLowerCase());
+					deathMessage = main.getMessage(killer.getType().getName().toLowerCase());
 				}
 			}
 			// エンティティ以外に倒されたメッセージは別に設定
 			else{
 				switch (cause.getCause()){
 					case CONTACT:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case DROWNING:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case FALL:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case FIRE:
 					case FIRE_TICK:
-						deathMessage = Main.getMessage("fire");
+						deathMessage = main.getMessage("fire");
 						break;
 
 					case LAVA:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case LIGHTNING:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case POISON:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case STARVATION:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case SUFFOCATION:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case SUICIDE:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					case VOID:
-						deathMessage = Main.getMessage(cause.getCause().toString());
+						deathMessage = main.getMessage(cause.getCause().toString());
 						break;
 
 					// それ以外は不明
 					default:
-						deathMessage = Main.getMessage("unknown"); // Unknown
+						deathMessage = main.getMessage("unknown"); // Unknown
 						break;
 				}
 			}

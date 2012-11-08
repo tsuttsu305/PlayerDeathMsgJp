@@ -14,12 +14,16 @@ public class Main extends JavaPlugin{
 	public void onEnable(){
 		PluginDescriptionFile pdfFile = getDescription();
 		this.logger.info(pdfFile.getName() + "version" + pdfFile.getVersion() + " is Enabled");
-		getServer().getPluginManager().registerEvents(new onPlayerDeathEvent(), this);
+
+		onPlayerDeathEvent event = new onPlayerDeathEvent(this); // このクラスのインスタンスをonPlayerDeathEventクラスのコンストラクタに渡して生成
+		getServer().getPluginManager().registerEvents(event, this); // イベント登録
+		// または次のようにインスタンス渡しと初期化、登録を一度で行う
+		//getServer().getPluginManager().registerEvents(new onPlayerDeathEvent(this), this);
 
 		getConfig().options().copyDefaults(true);
 		saveConfig();
-		
-		
+
+
 
 
 		//getServer().broadcastMessage(getMessage("pvp"));
