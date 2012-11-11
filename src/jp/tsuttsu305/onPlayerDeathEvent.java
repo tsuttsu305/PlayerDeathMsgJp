@@ -16,13 +16,13 @@ public class onPlayerDeathEvent implements Listener {
 	// * メインクラスのインスタンス
 	// このクラスのインスタンスが生成される際に、メインクラスのインスタンスを設定する
 	// メインクラスの動的フィールド・メソッドにアクセスする時は main.hogehoge のように使う
-	private Main main = null;
+	private PlayerDeathMsgJp main = null;
 
 	/**
 	 * onPlayerDeathEventクラスのコンストラクタ
 	 * @param main メインクラスのインスタンス
 	 */
-	public onPlayerDeathEvent(Main main){
+	public onPlayerDeathEvent(PlayerDeathMsgJp main){
 		this.main = main;
 	}
 

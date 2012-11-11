@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin{
-	public static Main plugin;
+public class PlayerDeathMsgJp extends JavaPlugin{
+	public static PlayerDeathMsgJp plugin;
 	Logger logger = Logger.getLogger("Minecraft");
 
 	//public static String[] con = new String[31];
