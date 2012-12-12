@@ -90,7 +90,6 @@ public class onPlayerDeathEvent implements Listener {
 				// そのほかのMOBは直接設定ファイルから取得
 				else{
 					//Mainクラスの main.plugin.Main.getMessage メソッドを呼ぶ
-					//deader.sendMessage(killer.getType().getName().toLowerCase());
 					deathMessage = main.getMessage(killer.getType().getName().toLowerCase());
 				}
 			}
