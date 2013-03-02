@@ -115,7 +115,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
                     deathMessage = deathMessage.replace("%o", tamer);
                 }
                 // プレイヤーが打った矢
-                else if (killer instanceof Arrow) {
+                else if (killer instanceof Arrow && ((Arrow)killer).getShooter() instanceof LivingEntity) {
                     LivingEntity shooter = ((Arrow)killer).getShooter();
                     String killerName;
                     if ( shooter instanceof Player ) {
