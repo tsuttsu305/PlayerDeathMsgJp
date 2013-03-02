@@ -93,12 +93,13 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
         else {
             // ダメージイベントがEntityDamageByEntityEvent(エンティティが原因のダメージイベント)かどうかチェック
             if (cause instanceof EntityDamageByEntityEvent) {
-                Entity killer = ((EntityDamageByEntityEvent) cause).getDamager(); // EntityDamageByEventのgetDamagerメソッドから原因となったエンティティを取得
+                // EntityDamageByEventのgetDamagerメソッドから原因となったエンティティを取得
+                Entity killer = ((EntityDamageByEntityEvent) cause).getDamager();
 
                 // エンティティの型チェック 特殊な表示の仕方が必要
                 if (killer instanceof Player){
                     // この辺に倒したプレイヤー名取得
-                    Player killerP = deader.getKiller();
+                    Player killerP = (Player)killer;
                     //killerが持ってたアイテム
                     ItemStack hand = killerP.getItemInHand();
                     deathMessage = getMessage("pvp");
@@ -123,7 +124,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
                     } else if ( shooter instanceof Skeleton ) {
                         killerName = "スケルトン";
                     } else {
-                        killerName = shooter.toString();
+                        killerName = "ディスペンサー";
                     }
 
                     deathMessage = getMessage("arrow");
