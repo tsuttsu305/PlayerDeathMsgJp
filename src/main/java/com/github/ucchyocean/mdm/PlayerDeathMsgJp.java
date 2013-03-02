@@ -33,6 +33,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
      */
     @Override
     public void onEnable(){
+        checkConfig();
         getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -40,7 +41,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
      * config.ymlが存在するかどうかチェックし、
      * 存在しないならデフォルトのconfig.ymlをコピーするメソッド
      */
-    public void checkConfig() {
+    private void checkConfig() {
 
         // フォルダやファイルがない場合は、作成したりする
         File dir = new File(getDataFolder().getAbsolutePath());
