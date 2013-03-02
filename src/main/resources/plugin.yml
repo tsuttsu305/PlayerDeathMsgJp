@@ -1,0 +1,5 @@
+name: MyCraCartChest
+main: com.github.ucchyocean.mdm.PlayerDeathMsgJp
+version: 1.0.0
+author: ucchy
+description: Death Message Customize Plugin for My-Cra Server.
