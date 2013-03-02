@@ -8,6 +8,7 @@ package com.github.ucchyocean.mdm;
 
 import java.io.File;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -75,7 +77,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
      * プレイヤーが死亡したときに呼び出されるメソッド
      * @param event プレイヤー死亡イベント
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event){
 
         // プレイヤーとプレイヤーが最後に受けたダメージイベントを取得
@@ -102,10 +104,14 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
                     Player killerP = (Player)killer;
                     //killerが持ってたアイテム
                     ItemStack hand = killerP.getItemInHand();
+                    String handItemName = hand.getType().toString();
+                    if ( hand.getType().equals(Material.AIR) ) {
+                        handItemName = "素手";
+                    }
                     deathMessage = getMessage("pvp");
 
                     deathMessage = deathMessage.replace("%k", killerP.getName());
-                    deathMessage = deathMessage.replace("%i", hand.getType().toString());
+                    deathMessage = deathMessage.replace("%i", handItemName);
                 }
                 // 飼われている狼
                 else if (killer instanceof Wolf && ((Wolf) killer).isTamed()){
