@@ -1,6 +1,6 @@
 #case: String
 #%p Player, %k Killer, %o Owner, %i Item
-arrow: '&b%p&e は&b%k&e 矢で射抜かれた。'
+arrow: '&b%p&e は&b%k&e に矢で射抜かれた。'
 bat: '&b%p&e はコウモリに殺された。'
 blaze: '&b%p&e はブレイズに殺された。'
 cave_spider: '&b%p&e は毒グモに殺された。'

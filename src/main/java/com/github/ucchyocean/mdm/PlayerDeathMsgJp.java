@@ -10,8 +10,10 @@ import java.io.File;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -113,12 +115,19 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
                     deathMessage = deathMessage.replace("%o", tamer);
                 }
                 // プレイヤーが打った矢
-                else if (killer instanceof Arrow && ((Arrow) killer).getShooter() instanceof Player) {
-                    // 投げたプレイヤー取得
-                    Player sh = (Player) ((Arrow)killer).getShooter();
+                else if (killer instanceof Arrow) {
+                    LivingEntity shooter = ((Arrow)killer).getShooter();
+                    String killerName;
+                    if ( shooter instanceof Player ) {
+                        killerName = ((Player)shooter).getName();
+                    } else if ( shooter instanceof Skeleton ) {
+                        killerName = "スケルトン";
+                    } else {
+                        killerName = shooter.toString();
+                    }
 
                     deathMessage = getMessage("arrow");
-                    deathMessage = deathMessage.replace("%k", sh.getName());
+                    deathMessage = deathMessage.replace("%k", killerName);
                 }
                 // プレイヤーが投げた雪玉など
                 else if (killer instanceof Projectile && ((Projectile) killer).getShooter() instanceof Player) {
