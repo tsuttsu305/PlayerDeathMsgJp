@@ -200,7 +200,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
 
                     // それ以外は不明
                     default:
-                        deathMessage = getMessage("unknown");
+                        deathMessage = getMessage(cause.getCause().toString());
                         break;
                 }
             }
