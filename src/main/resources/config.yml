@@ -8,3 +8,6 @@ loggingDeathMessage: false
 
 # Suppress death message exclude OPs.
 suppressDeathMessage: false
+
+# Append world name to prefix.
+prefixWorld: true

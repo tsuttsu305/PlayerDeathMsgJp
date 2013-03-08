@@ -10,6 +10,7 @@ import java.io.File;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
@@ -39,6 +40,7 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
 
     private static boolean loggingDeathMessage;
     private static boolean suppressDeathMessage;
+    private static boolean prefixWorld;
 
     /**
      * プラグイン有効時に呼び出されるメソッド
@@ -80,6 +82,7 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
 
         loggingDeathMessage = config.getBoolean("loggingDeathMessage", false);
         suppressDeathMessage = config.getBoolean("suppressDeathMessage", false);
+        prefixWorld = config.getBoolean("prefixWorld", true);
     }
 
     /**
@@ -191,6 +194,12 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
 
         // カラーコードを置き換える
         deathMessage = Utility.replaceColorCode(deathMessage);
+
+        if ( prefixWorld ) {
+            // ワールド名を頭につける
+            World world = deader.getWorld();
+            deathMessage = "[" + world.getName() + "] " + deathMessage;
+        }
 
         if ( loggingDeathMessage ) {
             // ロギング
