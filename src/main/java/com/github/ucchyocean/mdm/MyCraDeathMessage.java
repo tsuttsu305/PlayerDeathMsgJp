@@ -2,6 +2,7 @@
  * @author     ucchy
  * @license    GPLv3
  * @copyright  Copyright ucchy 2013
+ * このソースコードは、tsuttsu305氏のリポジトリからフォークさせていただきました。感謝。
  */
 package com.github.ucchyocean.mdm;
 
@@ -17,6 +18,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,7 +27,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -119,7 +121,7 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
 
                 // エンティティの型チェック 特殊な表示の仕方が必要
                 if (killer instanceof Player){
-                    // この辺に倒したプレイヤー名取得
+                    // 倒したプレイヤー名取得
                     Player killerP = (Player)killer;
                     //killerが持ってたアイテム
                     ItemStack hand = killerP.getItemInHand();
@@ -161,7 +163,11 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
                     // 投げたプレイヤー取得
                     Player sh = (Player) ((Projectile)killer).getShooter();
 
-                    deathMessage = getMessage("throw");
+                    if ( killer instanceof ThrownPotion ) {
+                        deathMessage = getMessage("potion");
+                    } else {
+                        deathMessage = getMessage("throw");
+                    }
                     deathMessage = deathMessage.replace("%k", sh.getName());
                 }
                 // そのほかのMOBは直接設定ファイルから取得
@@ -210,18 +216,16 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
      * コマンドが実行されたときに呼び出されるメソッド
      * @param event
      */
-    @EventHandler
-    public void onServerCommand(ServerCommandEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 
-        // killコマンドではないか、プレイヤーから実行されたコマンドでないなら、
-        // 用は無いので、終了する。
-        if ( !(event.getCommand().equalsIgnoreCase("kill")) ||
-                !(event.getSender() instanceof Player) ) {
+        // killコマンドではないなら、用は無いので、終了する。
+        if ( !(event.getMessage().equalsIgnoreCase("/kill")) ) {
             return;
         }
 
         // killコマンドを実行された場合は、DamageCause.SUICIDEを設定する
-        Player player = (Player)event.getSender();
+        Player player = event.getPlayer();
         player.setLastDamageCause(new EntityDamageEvent(player, DamageCause.SUICIDE, 100));
     }
 }
