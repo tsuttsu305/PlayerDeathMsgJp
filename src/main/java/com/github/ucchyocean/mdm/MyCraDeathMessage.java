@@ -2,13 +2,15 @@
  * @author     ucchy
  * @license    GPLv3
  * @copyright  Copyright ucchy 2013
- * このソースコードは、tsuttsu305氏のリポジトリからフォークさせていただきました。感謝。
  */
 package com.github.ucchyocean.mdm;
 
 import java.io.File;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -21,15 +23,20 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author ucchy
- * My-Cra サーバー用、デスメッセージカスタマイズプラグイン
+ * My-Craサーバー用、デスメッセージカスタマイズプラグイン
  */
-public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
+public class MyCraDeathMessage extends JavaPlugin implements Listener {
+
+    private static boolean loggingDeathMessage;
+    private static boolean suppressDeathMessage;
 
     /**
      * プラグイン有効時に呼び出されるメソッド
@@ -37,7 +44,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
      */
     @Override
     public void onEnable(){
-        checkConfig();
+        loadFiles();
         getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -45,7 +52,7 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
      * config.ymlが存在するかどうかチェックし、
      * 存在しないならデフォルトのconfig.ymlをコピーするメソッド
      */
-    private void checkConfig() {
+    private void loadFiles() {
 
         // フォルダやファイルがない場合は、作成したりする
         File dir = new File(getDataFolder().getAbsolutePath());
@@ -55,11 +62,22 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
 
         File file = new File(getDataFolder(), "config.yml");
         if ( !file.exists() ) {
-            Utility.copyFileFromJar(getFile(), file, "config_ja.yml", false);
+            Utility.copyFileFromJar(getFile(), file, "config.yml", false);
+        }
+
+        file = new File(getDataFolder(), "messages.yml");
+        if ( !file.exists() ) {
+            Utility.copyFileFromJar(getFile(), file, "messages.yml", false);
         }
 
         // 再読み込み処理
         reloadConfig();
+
+        // 設定の取得
+        FileConfiguration config = getConfig();
+
+        loggingDeathMessage = config.getBoolean("loggingDeathMessage", false);
+        suppressDeathMessage = config.getBoolean("suppressDeathMessage", false);
     }
 
     /**
@@ -68,9 +86,10 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
      * @return 理由に応じたメッセージ。
      */
     public String getMessage(String cause) {
-        cause = cause.toLowerCase();
-        cause = getConfig().getString(cause, cause + "(%p_%k_%i_%o)");
-        return cause;
+
+        File file = new File(getDataFolder(), "messages.yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        return config.getString(cause, "&e" + cause + "(%p_%k_%i_%o)");
     }
 
     /**
@@ -121,9 +140,10 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
                     deathMessage = getMessage("tamewolf");
                     deathMessage = deathMessage.replace("%o", tamer);
                 }
-                // プレイヤーが打った矢
-                else if (killer instanceof Arrow && ((Arrow)killer).getShooter() instanceof LivingEntity) {
-                    LivingEntity shooter = ((Arrow)killer).getShooter();
+                // 打たれた矢
+                else if (killer instanceof Arrow) {
+                    Arrow arrow = (Arrow)killer;
+                    LivingEntity shooter = arrow.getShooter();
                     String killerName;
                     if ( shooter instanceof Player ) {
                         killerName = ((Player)shooter).getName();
@@ -145,63 +165,17 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
                     deathMessage = deathMessage.replace("%k", sh.getName());
                 }
                 // そのほかのMOBは直接設定ファイルから取得
-                else{
+                else {
                     // 直接 getMessage メソッドを呼ぶ
                     deathMessage = getMessage(killer.getType().getName().toLowerCase());
                 }
             }
             // エンティティ以外に倒されたメッセージは別に設定
             else {
-                switch (cause.getCause()){
-                    case CONTACT:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case DROWNING:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case FALL:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case FIRE:
-                    case FIRE_TICK:
-                        deathMessage = getMessage("fire");
-                        break;
-
-                    case LAVA:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case LIGHTNING:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case POISON:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case STARVATION:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case SUFFOCATION:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case SUICIDE:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    case VOID:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
-
-                    // それ以外は不明
-                    default:
-                        deathMessage = getMessage(cause.getCause().toString());
-                        break;
+                if (cause.getCause() == DamageCause.FIRE_TICK) {
+                    deathMessage = getMessage("fire");
+                } else {
+                    deathMessage = getMessage(cause.getCause().toString().toLowerCase());
                 }
             }
         }
@@ -212,9 +186,42 @@ public class PlayerDeathMsgJp extends JavaPlugin implements Listener {
         // カラーコードを置き換える
         deathMessage = Utility.replaceColorCode(deathMessage);
 
-        // メッセージを再設定する
-        event.setDeathMessage(deathMessage);
-        return;
+        if ( loggingDeathMessage ) {
+            // ロギング
+            getLogger().info(ChatColor.stripColor(deathMessage));
+        }
+
+        if ( suppressDeathMessage ) {
+            // メッセージを消去して、OPにだけ送信する
+            event.setDeathMessage("");
+            Player[] players = getServer().getOnlinePlayers();
+            for ( Player player : players ) {
+                if ( player.isOp() ) {
+                    player.sendMessage(deathMessage);
+                }
+            }
+        } else {
+            // メッセージを再設定する
+            event.setDeathMessage(deathMessage);
+        }
     }
 
+    /**
+     * コマンドが実行されたときに呼び出されるメソッド
+     * @param event
+     */
+    @EventHandler
+    public void onServerCommand(ServerCommandEvent event) {
+
+        // killコマンドではないか、プレイヤーから実行されたコマンドでないなら、
+        // 用は無いので、終了する。
+        if ( !(event.getCommand().equalsIgnoreCase("kill")) ||
+                !(event.getSender() instanceof Player) ) {
+            return;
+        }
+
+        // killコマンドを実行された場合は、DamageCause.SUICIDEを設定する
+        Player player = (Player)event.getSender();
+        player.setLastDamageCause(new EntityDamageEvent(player, DamageCause.SUICIDE, 100));
+    }
 }
