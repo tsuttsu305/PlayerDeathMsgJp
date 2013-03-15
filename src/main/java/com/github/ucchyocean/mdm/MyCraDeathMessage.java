@@ -6,9 +6,11 @@
  */
 package com.github.ucchyocean.mdm;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -90,15 +92,7 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
         prefixWorld = config.getBoolean("prefixWorld", true);
 
         // メッセージのデフォルトを、Jarの中から読み込む
-        defaultMessages = new YamlConfiguration();
-        try {
-            JarFile jarFile = new JarFile(getFile());
-            ZipEntry zipEntry = jarFile.getEntry("messages.yml");
-            InputStream inputStream = jarFile.getInputStream(zipEntry);
-            defaultMessages = YamlConfiguration.loadConfiguration(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        defaultMessages = loadDefaultMessages();
     }
 
     /**
@@ -259,5 +253,31 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
         // killコマンドを実行された場合は、DamageCause.SUICIDEを設定する
         Player player = event.getPlayer();
         player.setLastDamageCause(new EntityDamageEvent(player, DamageCause.SUICIDE, 100));
+    }
+
+    private YamlConfiguration loadDefaultMessages() {
+
+        YamlConfiguration messages = new YamlConfiguration();
+        try {
+            JarFile jarFile = new JarFile(getFile());
+            ZipEntry zipEntry = jarFile.getEntry("messages.yml");
+            InputStream inputStream = jarFile.getInputStream(zipEntry);
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            String line;
+            while ( (line = reader.readLine()) != null ) {
+                if ( line.contains(":") && !line.startsWith("#") ) {
+                    String key = line.substring(0, line.indexOf(":")).trim();
+                    String value = line.substring(line.indexOf(":") + 1).trim();
+                    if ( value.startsWith("'") && value.endsWith("'") )
+                        value = value.substring(1, value.length()-1);
+                    messages.set(key, value);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return messages;
     }
 }
