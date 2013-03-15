@@ -7,6 +7,10 @@
 package com.github.ucchyocean.mdm;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -38,9 +42,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MyCraDeathMessage extends JavaPlugin implements Listener {
 
-    private static boolean loggingDeathMessage;
-    private static boolean suppressDeathMessage;
-    private static boolean prefixWorld;
+    private boolean loggingDeathMessage;
+    private boolean suppressDeathMessage;
+    private boolean prefixWorld;
+    private YamlConfiguration defaultMessages;
 
     /**
      * プラグイン有効時に呼び出されるメソッド
@@ -83,6 +88,17 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
         loggingDeathMessage = config.getBoolean("loggingDeathMessage", false);
         suppressDeathMessage = config.getBoolean("suppressDeathMessage", false);
         prefixWorld = config.getBoolean("prefixWorld", true);
+
+        // メッセージのデフォルトを、Jarの中から読み込む
+        defaultMessages = new YamlConfiguration();
+        try {
+            JarFile jarFile = new JarFile(getFile());
+            ZipEntry zipEntry = jarFile.getEntry("messages.yml");
+            InputStream inputStream = jarFile.getInputStream(zipEntry);
+            defaultMessages = YamlConfiguration.loadConfiguration(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -92,9 +108,12 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
      */
     public String getMessage(String cause) {
 
+        String defaultMessage = defaultMessages.getString(
+                cause, "&e" + cause + "(%p_%k_%i_%o)");
+
         File file = new File(getDataFolder(), "messages.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        return config.getString(cause, "&e" + cause + "(%p_%k_%i_%o)");
+        return config.getString(cause, defaultMessage);
     }
 
     /**
