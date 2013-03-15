@@ -246,6 +246,10 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+        // NOTE: AdminCmd など、killコマンドの実行時に、ダメージ原因（DamageCause）を設定しない
+        //       お行儀の悪い子が多いので、プレイヤーコマンドに介在して、
+        //       DamageCause を設定する必要がある。
+        // たぶん、Essentials の killコマンドも、DamageCauseを設定していない。公式は設定する。
 
         // killコマンドではないなら、用は無いので、終了する。
         if ( !(event.getMessage().equalsIgnoreCase("/kill")) ) {
