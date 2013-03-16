@@ -26,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.ThrownPotion;
+import org.bukkit.entity.Witch;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -136,7 +137,7 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
                 Entity killer = ((EntityDamageByEntityEvent) cause).getDamager();
 
                 // エンティティの型チェック 特殊な表示の仕方が必要
-                if (killer instanceof Player){
+                if (killer instanceof Player) {
                     // 倒したプレイヤー名取得
                     Player killerP = (Player)killer;
                     //killerが持ってたアイテム
@@ -155,41 +156,50 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
                     //  飼い主取得
                     String tamer = ((Wolf)killer).getOwner().getName();
 
-                    deathMessage = getMessage("tamewolf");
+                    deathMessage = getDeathMessageByMob("tamewolf", (Wolf)killer);
                     deathMessage = deathMessage.replace("%o", tamer);
                 }
                 // 打たれた矢
                 else if (killer instanceof Arrow) {
                     Arrow arrow = (Arrow)killer;
                     LivingEntity shooter = arrow.getShooter();
-                    String killerName;
                     if ( shooter instanceof Player ) {
-                        killerName = ((Player)shooter).getName();
+                        String killerName = ((Player)shooter).getName();
+                        deathMessage = getMessage("arrow");
+                        deathMessage = deathMessage.replace("%k", killerName);
                     } else if ( shooter instanceof Skeleton ) {
-                        killerName = "スケルトン";
+                        deathMessage = getDeathMessageByMob("skeleton", (Skeleton)shooter);
                     } else {
-                        killerName = "ディスペンサー";
+                        deathMessage = getMessage("dispenser");
                     }
-
-                    deathMessage = getMessage("arrow");
-                    deathMessage = deathMessage.replace("%k", killerName);
                 }
-                // プレイヤーが投げた雪玉など
-                else if (killer instanceof Projectile && ((Projectile) killer).getShooter() instanceof Player) {
+                // 投げたポーションや雪玉など
+                else if (killer instanceof Projectile) {
                     // 投げたプレイヤー取得
-                    Player sh = (Player) ((Projectile)killer).getShooter();
-
-                    if ( killer instanceof ThrownPotion ) {
-                        deathMessage = getMessage("potion");
-                    } else {
-                        deathMessage = getMessage("throw");
+                    LivingEntity shooter = ((Projectile)killer).getShooter();
+                    if ( shooter instanceof Player ) {
+                        String shooterName = ((Player)shooter).getName();
+                        if ( killer instanceof ThrownPotion ) {
+                            deathMessage = getMessage("potion");
+                        } else {
+                            deathMessage = getMessage("throw");
+                        }
+                        deathMessage = deathMessage.replace("%k", shooterName);
+                    } else if ( shooter instanceof Witch ) {
+                        deathMessage = getDeathMessageByMob("witch", shooter);
                     }
-                    deathMessage = deathMessage.replace("%k", sh.getName());
                 }
                 // そのほかのMOBは直接設定ファイルから取得
                 else {
                     // 直接 getMessage メソッドを呼ぶ
-                    deathMessage = getMessage(killer.getType().getName().toLowerCase());
+                    if ( killer instanceof LivingEntity ) {
+                        deathMessage = getDeathMessageByMob(
+                                killer.getType().getName().toLowerCase(),
+                                (LivingEntity)killer);
+                    } else {
+                        deathMessage = getMessage(
+                                killer.getType().getName().toLowerCase());
+                    }
                 }
             }
             // エンティティ以外に倒されたメッセージは別に設定
@@ -243,7 +253,6 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
         // NOTE: AdminCmd など、killコマンドの実行時に、ダメージ原因（DamageCause）を設定しない
         //       お行儀の悪い子が多いので、プレイヤーコマンドに介在して、
         //       DamageCause を設定する必要がある。
-        // たぶん、Essentials の killコマンドも、DamageCauseを設定していない。公式は設定する。
 
         // killコマンドではないなら、用は無いので、終了する。
         if ( !(event.getMessage().equalsIgnoreCase("/kill")) ) {
@@ -255,6 +264,10 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
         player.setLastDamageCause(new EntityDamageEvent(player, DamageCause.SUICIDE, 100));
     }
 
+    /**
+     * Jarファイル内から直接 messages.yml を読み込み、YamlConfigurationにして返すメソッド
+     * @return
+     */
     private YamlConfiguration loadDefaultMessages() {
 
         YamlConfiguration messages = new YamlConfiguration();
@@ -279,5 +292,23 @@ public class MyCraDeathMessage extends JavaPlugin implements Listener {
         }
 
         return messages;
+    }
+
+    /**
+     * 指定したMOBに関連したデスメッセージを取得する
+     * @param cause
+     * @param le
+     * @return
+     */
+    private String getDeathMessageByMob(String cause, LivingEntity le) {
+
+        String deathMessage = getMessage(cause);
+//        String mobName = le.getCustomName();
+//        if ( mobName == null ) {
+//            mobName = "";
+//        }
+//
+//        return deathMessage.replace("%n", mobName);
+        return deathMessage;
     }
 }
