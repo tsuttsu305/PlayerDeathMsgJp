@@ -1,38 +1,10 @@
-#case: String
-#%p Player, %k Killer, %o Owner, %i Item
-unknown: "%p は死にました"
-pvp: "%p は%k に%i で殺された"
-tamewolf: "%p は%o の狼に喰われた"
-throw: "%p は%k によって投げられた物で死亡した"
-arrow: "%p は矢で射抜かれた"
-snowball: "%p は雪玉で死んだ"
-creeper: "%p はクリーパーに殺された"
-skeleton: "%p はスケルトンに射殺された"
-spider: "%p は蜘蛛に殺された"
-giant: "%p はぺしゃんこになった"
-zombie: "%p はゾンビに殺された"
-slime: "%p はスライムに殺された"
-ghast: "%p はガストに殺された"
-pig_zombie: "%p はゾンビピッグマンに殺された"
-enderman: "%p はエンダーマンに殺された"
-cave_spider: "%p は毒グモに殺された"
-silverfish: "%p はシルバーフィッシュに殺された"
-blaze: "%p はブレイズに火だるまにされた"
-magma_cube: "%p はマグマキューブに殺された"
-ender_dragon: "%p はエンダードラゴンに殺された"
-wither: "%p はウィザーに殺された"
-bat: "%p はコウモリに殺された"
-wolf: "%p は狼に噛まれた"
-showman: "%p は雪男に殺された"
-iron_golem: "%p は鉄の巨人に殴り殺された"
-contact: "%p はサボテンに抱きついて死んだ"
-drowning: "%p は溺れ死んだ"
-fall: "%p は落下死した"
-fire: "%p は焼け死んだ"
-lava: "%p はマグマ遊泳を楽しんだ"
-lightning: "%p は神の怒りにふれた"
-poison: "%p は毒で死んだ"
-starvation: "%p は餓死しました"
-suffocation: "%p は窒息死しました"
-suicide: "%p は自殺した模様"
-void: "%p は奈落に落ちた"
+# PlayerDeathMsgJp v2.0.0
+
+# Output to server.log
+loggingDeathMessage: false
+
+# Suppress death message exclude OPs.
+suppressDeathMessage: false
+
+# Append world name to prefix.
+prefixWorld: true
